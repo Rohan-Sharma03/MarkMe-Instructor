@@ -1,12 +1,16 @@
 import React from "react";
-import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
-import logo from "./logo.svg";
-import Home from "./Home";
-import QR from "./QR"; // Corrected import
+import { BrowserRouter as Router, Routes, Route, } from "react-router-dom";
+import Home from "./pages/Home";
+import QR from "./pages/QR"; // Corrected import
 import NavigationBar from "./Components/NavigationBar";
-import Profile from "./Components/profile";
+import Profile from "./pages/profile";
+import NewCourse from "./pages/NewCourses";
+import CourseDetail from "./pages/CourseDetail";
+import SignIn from "./pages/SignIn";
+import CreateAccount from "./pages/CreateAccount";
+import Notifier from "./pages/Notifier";
 
-function App() {
+function App(): JSX.Element {
   return (
     <Router>
       <div>
@@ -14,7 +18,12 @@ function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/qr" element={<QR />} />
+          <Route path="/sigin" element={<SignIn />} />
+          <Route path="/notifier" element={<Notifier />} />
           <Route path="/profile" element={<Profile />} />
+          <Route path="/addcourse" element={<NewCourse />} />
+          <Route path="/courseDetail" element={<CourseDetail />} />
+          <Route path="/createAccount" element={<CreateAccount />} />
         </Routes>
       </div>
     </Router>
