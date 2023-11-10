@@ -1,10 +1,23 @@
 import React, { useState, useEffect, useRef } from "react";
 import { FaBars, FaTimes, FaUser } from "react-icons/fa"; // Import the icons
-import { Link } from "react-router-dom"; // Import Link from react-router-dom
+import { useNavigate } from "react-router-dom";
 
 export default function NavigationBar() {
   const [showSidebar, setShowSidebar] = useState(false);
   const sidebarRef = useRef<HTMLDivElement>(null);
+
+  const navigate = useNavigate();
+  // const location = useLocation();
+
+  const handleClickProfile = () => {
+    navigate("/profile");
+    setShowSidebar(false); // Close sidebar on profile click
+  };
+
+  const handleClickNotifier = () => {
+    navigate("/notifier");
+    setShowSidebar(false); // Close sidebar on notifier click
+  };
 
   const toggleSidebar = () => {
     setShowSidebar(!showSidebar);
@@ -25,6 +38,10 @@ export default function NavigationBar() {
       document.removeEventListener("click", handleClickOutside, true);
     };
   }, []);
+
+  useEffect(() => {
+    setShowSidebar(false); // Close sidebar on page navigation
+  }, [navigate]);
 
   const getCurrentDate = () => {
     const options: Intl.DateTimeFormatOptions = {
@@ -58,9 +75,11 @@ export default function NavigationBar() {
         <div className="text-lg font-semibold text-gray-800">
           Instructor Name
         </div>
-        <Link to="/profile">
-          <FaUser size={20} className="ml-2 text-blue-500 cursor-pointer" />
-        </Link>
+        <FaUser
+          size={20}
+          onClick={handleClickProfile}
+          className="ml-2 text-blue-500 cursor-pointer"
+        />
       </div>
 
       {showSidebar && (
@@ -83,10 +102,11 @@ export default function NavigationBar() {
           </button>
           <div className="p-5">
             <p className="text-lg font-bold text-gray-800">Sidebar content</p>
-            <p className="mt-3 text-gray-700">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam
-              condimentum posuere odio, vitae volutpat mauris dignissim vel.
-            </p>
+            <div onClick={handleClickNotifier}>
+              <p className="mt-3 text-gray-700 bg-slate-400 p-2 rounded-md cursor-pointer">
+                Notify Students
+              </p>
+            </div>
           </div>
         </div>
       )}
