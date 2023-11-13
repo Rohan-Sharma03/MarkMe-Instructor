@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 const Home = () => {
   const navigate = useNavigate();
   function handleClickCourse() {
-    navigate("/addcourse");
+    navigate("/addCourse");
   }
 
   return (
