@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import { FaBars, FaTimes, FaUser } from "react-icons/fa"; // Import the icons
+import { FaBars, FaTimes, FaUser } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 
 export default function NavigationBar() {
@@ -7,16 +7,20 @@ export default function NavigationBar() {
   const sidebarRef = useRef<HTMLDivElement>(null);
 
   const navigate = useNavigate();
-  // const location = useLocation();
 
   const handleClickProfile = () => {
     navigate("/profile");
-    setShowSidebar(false); // Close sidebar on profile click
+    setShowSidebar(false);
   };
 
-  const handleClickNotifier = () => {
-    navigate("/notifier");
-    setShowSidebar(false); // Close sidebar on notifier click
+  const handleClickAddCourse = () => {
+    navigate("/addCourse");
+    setShowSidebar(false);
+  };
+
+  const handleClickSignOut = () => {
+    navigate("signIn");
+    setShowSidebar(false);
   };
 
   const toggleSidebar = () => {
@@ -40,7 +44,7 @@ export default function NavigationBar() {
   }, []);
 
   useEffect(() => {
-    setShowSidebar(false); // Close sidebar on page navigation
+    setShowSidebar(false);
   }, [navigate]);
 
   const getCurrentDate = () => {
@@ -58,55 +62,56 @@ export default function NavigationBar() {
   const currentDate = getCurrentDate();
 
   return (
-    <div className="fixed top-0 left-0 w-full z-50  flex items-center justify-between p-3 bg-gray-100 shadow">
-      <div className="flex items-center space-x-3">
-        <button
-          style={{ background: "none", border: "none", outline: "none" }}
-          onClick={toggleSidebar}
-        >
-          {showSidebar ? <FaTimes size={20} /> : <FaBars size={20} />}
-        </button>
-        <div className="text-lg font-semibold text-gray-800">Course Name</div>
-      </div>
-      <div className="hidden md:block text-lg font-semibold text-gray-800">
-        {currentDate}
-      </div>
-      <div className="flex items-center">
-        <div className="text-lg font-semibold text-gray-800">
-          Instructor Name
+    <div className="fixed top-0 left-0 w-full z-50 bg-gray-800 text-white">
+      <div className="flex items-center justify-between p-3 md:px-8">
+        <div className="flex items-center space-x-3">
+          <button
+            style={{ background: "none", border: "none", outline: "none" }}
+            onClick={toggleSidebar}
+          >
+            {showSidebar ? <FaTimes size={20} /> : <FaBars size={20} />}
+          </button>
+          <div className="text-lg font-semibold">Course Name</div>
         </div>
-        <FaUser
-          size={20}
-          onClick={handleClickProfile}
-          className="ml-2 text-blue-500 cursor-pointer"
-        />
+        <div className="hidden md:block text-lg font-semibold">
+          {currentDate}
+        </div>
+        <div className="flex items-center space-x-3">
+          <div className="text-lg font-semibold">Instructor Name</div>
+          <FaUser
+            size={20}
+            onClick={handleClickProfile}
+            className="cursor-pointer"
+          />
+        </div>
       </div>
 
       {showSidebar && (
         <div
           ref={sidebarRef}
-          className="fixed top-0 left-0 h-screen w-1/3 bg-white z-50 shadow-lg"
-          style={{ transition: "0.5s" }}
+          className="fixed top-0 left-0 h-screen w-1/4 bg-white text-gray-800 shadow-lg overflow-y-auto"
         >
-          <button
-            style={{
-              background: "none",
-              border: "none",
-              float: "right",
-              padding: "10px",
-              outline: "none",
-            }}
-            onClick={toggleSidebar}
-          >
-            <FaTimes size={20} />
-          </button>
           <div className="p-5">
-            <p className="text-lg font-bold text-gray-800">Sidebar content</p>
-            <div onClick={handleClickNotifier}>
-              <p className="mt-3 text-gray-700 bg-slate-400 p-2 rounded-md cursor-pointer">
-                Notify Students
+            <p className="text-lg font-bold mb-4">Menu</p>
+            <div onClick={handleClickProfile}>
+              <p className="mt-3 p-3 border border-gray-700 rounded-md cursor-pointer hover:bg-gray-200 transition duration-300">
+                Profile
               </p>
             </div>
+            <div onClick={handleClickAddCourse}>
+              <p className="mt-3 p-3 border border-gray-700 rounded-md cursor-pointer hover:bg-gray-200 transition duration-300">
+                Add Course
+              </p>
+            </div>
+            <div onClick={handleClickSignOut}>
+              <p className="mt-3 p-3 border border-gray-700 rounded-md cursor-pointer hover:bg-gray-200 transition duration-300">
+                Sign Out
+              </p>
+            </div>
+          </div>
+          <div className="p-5 text-sm text-gray-600">
+            <p>Version 1.0.0</p>
+            <p>Made with ❤️</p>
           </div>
         </div>
       )}
