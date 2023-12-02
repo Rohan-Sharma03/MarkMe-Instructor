@@ -1,28 +1,36 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-
+import axios from "axios";
+import { useAuth } from "../context/useAuth";
 export default function Profile() {
   const navigate = useNavigate();
+  const { user, logout } = useAuth();
+  // const [instructorData, setInstructorData] = useState(null);
+  const [instructorId, setInstructorId] = useState<string | null>("NA");
+  const [instructorName, setInstructorName] = useState<string | null>("NA");
+  const [instructorEmail, setInstructorEmail] = useState<string | null>("NA");
+  const [ongoingCourses, setOngoingCourses] = useState<string[]>([]);
+  const [contactNumber, setContactNumber] = useState<string | null>("NA");
 
-  const handleLogout = () => {
-    navigate("/signIn");
-  };
+  useEffect(() => {
+    if (user) {
+      setInstructorId(user.id);
+      setInstructorName(user.name);
+      setInstructorEmail(user.email);
+      setOngoingCourses(user.courses);
+      setContactNumber(user.number);
+    }
+  }, [user]);
 
-  // Sample data, replace it with actual data from your backend or state
-  const facultyProfile = {
-    instructor_id: "Rohan123",
-    instructor_name: "Rohan",
-    instructor_email: "rohan@example.com",
-    ongoing_courses: ["Computer Science 101", "Mathematics 202", "Physics 301"],
-    contact_number: "+1234567890",
+  const handleSignOut = () => {
+    logout();
+    navigate("/signIn", { replace: true });
   };
 
   return (
     <div className="flex items-center justify-center h-screen">
       <div className="container p-8 bg-white rounded-md shadow-xl max-w-md">
-        <h2 className="text-2xl font-semibold mb-4 text-center">
-          Faculty Profile
-        </h2>
+        <h2 className="text-2xl font-semibold mb-4 text-center">Profile</h2>
         <div className="flex flex-col space-y-2">
           <label
             htmlFor="instructor_id"
@@ -31,7 +39,7 @@ export default function Profile() {
             Instructor ID
           </label>
           <div className="py-2 px-4 border border-gray-300 rounded-md">
-            {facultyProfile.instructor_id}
+            {instructorId}
           </div>
         </div>
         <div className="flex flex-col space-y-2">
@@ -42,7 +50,7 @@ export default function Profile() {
             Instructor Name
           </label>
           <div className="py-2 px-4 border border-gray-300 rounded-md">
-            {facultyProfile.instructor_name}
+            {instructorName}
           </div>
         </div>
         <div className="flex flex-col space-y-2">
@@ -53,7 +61,7 @@ export default function Profile() {
             Instructor Email
           </label>
           <div className="py-2 px-4 border border-gray-300 rounded-md">
-            {facultyProfile.instructor_email}
+            {instructorEmail}
           </div>
         </div>
         <div className="flex flex-col space-y-2">
@@ -64,7 +72,7 @@ export default function Profile() {
             Ongoing Courses
           </label>
           <div className="flex flex-wrap gap-2 py-2 px-4">
-            {facultyProfile.ongoing_courses.map((course, index) => (
+            {ongoingCourses.map((course, index) => (
               <span
                 key={index}
                 className="bg-blue-500 text-white px-2 py-1 rounded-md"
@@ -82,12 +90,12 @@ export default function Profile() {
             Contact Number
           </label>
           <div className="py-2 px-4 border border-gray-300 rounded-md">
-            {facultyProfile.contact_number}
+            {contactNumber}
           </div>
         </div>
         <button
           className="mt-6 bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded-md shadow-md w-full"
-          onClick={handleLogout}
+          onClick={handleSignOut}
         >
           Sign Out
         </button>
