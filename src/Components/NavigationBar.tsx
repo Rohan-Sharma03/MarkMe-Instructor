@@ -1,11 +1,15 @@
 import React, { useState, useEffect, useRef } from "react";
-import { FaBars, FaTimes, FaUser } from "react-icons/fa";
+import { FaBars, FaTimes, FaUser, FaHome } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../context/useAuth";
 
-export default function NavigationBar() {
+export default function NavigationBar(): JSX.Element {
   const [showSidebar, setShowSidebar] = useState(false);
   const sidebarRef = useRef<HTMLDivElement>(null);
-
+  const { isLoggedIn, logout, user } = useAuth();
+  const [instructorName, setInstructorName] = useState<string | null>(
+    "Instrcutor Name"
+  );
   const navigate = useNavigate();
 
   const handleClickProfile = () => {
@@ -19,12 +23,20 @@ export default function NavigationBar() {
   };
 
   const handleClickSignOut = () => {
-    navigate("signIn");
+    logout();
+    navigate("/signIn");
+    setShowSidebar(false);
+  };
+
+  const handleClickHome = () => {
+    navigate("/");
     setShowSidebar(false);
   };
 
   const toggleSidebar = () => {
-    setShowSidebar(!showSidebar);
+    if (isLoggedIn) {
+      setShowSidebar(!showSidebar);
+    }
   };
 
   const handleClickOutside = (event: MouseEvent) => {
@@ -35,9 +47,14 @@ export default function NavigationBar() {
       setShowSidebar(false);
     }
   };
-
+  useEffect(() => {
+    if (user) {
+      setInstructorName(user.name);
+    }
+  }, [user]);
   useEffect(() => {
     document.addEventListener("click", handleClickOutside, true);
+
     return () => {
       document.removeEventListener("click", handleClickOutside, true);
     };
@@ -71,13 +88,19 @@ export default function NavigationBar() {
           >
             {showSidebar ? <FaTimes size={20} /> : <FaBars size={20} />}
           </button>
-          <div className="text-lg font-semibold">Course Name</div>
+          <div className="text-lg font-semibold">JK lakshmipath University</div>
         </div>
         <div className="hidden md:block text-lg font-semibold">
           {currentDate}
         </div>
         <div className="flex items-center space-x-3">
-          <div className="text-lg font-semibold">Instructor Name</div>
+          <button
+            style={{ background: "none", border: "none", outline: "none" }}
+            onClick={handleClickHome}
+          >
+            <FaHome size={20} />
+          </button>
+          <div className="text-lg font-semibold">{instructorName}</div>
           <FaUser
             size={20}
             onClick={handleClickProfile}
