@@ -1,5 +1,8 @@
+import axios from "axios";
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 export default function NewCourse() {
   const navigate = useNavigate();
@@ -8,8 +11,9 @@ export default function NewCourse() {
     course_id: "",
     course_name: "",
     course_objective: "",
-    instructor_id: "",
+    instructor_id: "JKE004",
     course_for: "",
+    timetable_id: "CS2345L",
   });
 
   const handleChange = (
@@ -22,11 +26,66 @@ export default function NewCourse() {
     }));
   };
 
+  const addCourse = async () => {
+    try {
+      const response = await axios.post(
+        `${process.env.REACT_APP_API_URL}/api/csCourses`,
+        {
+          course_id: courseDetails.course_id,
+          course_name: courseDetails.course_name,
+          course_objective: courseDetails.course_objective,
+          instructor_id: courseDetails.instructor_id,
+          course_for: courseDetails.course_for,
+          timetable_id: courseDetails.timetable_id,
+        }
+      );
+      console.log(response.data); // Log the response data if needed
+
+      // Handle success, show success message using react-toastify
+      if (response.data.status == 500) {
+        toast.error("Error in Creating Course", {
+          position: toast.POSITION.BOTTOM_CENTER,
+          autoClose: 1000,
+          hideProgressBar: false,
+          closeButton: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        });
+      } else if (response.data.status == 409) {
+        toast.error("Course already exits", {
+          position: toast.POSITION.BOTTOM_CENTER,
+          autoClose: 1000,
+          hideProgressBar: false,
+          closeButton: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        });
+      } else {
+        toast.success("Course Created", {
+          position: toast.POSITION.BOTTOM_CENTER,
+          autoClose: 1000,
+          hideProgressBar: false,
+          closeButton: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        });
+        await new Promise((resolve) => setTimeout(resolve, 3000));
+        handleCreateCourse();
+      }
+    } catch (error) {
+      console.error("Error creating account:", error);
+      // Handle error, show error message to the user, etc.
+    }
+  };
+
   const handleCreateCourse = () => {
     // Implement logic to create a new course, e.g., send data to the server
     console.log("Course Details:", courseDetails);
     // Redirect to the appropriate page after course creation
-    navigate("/profile");
+    navigate("/", { replace: true });
   };
 
   return (
@@ -76,19 +135,6 @@ export default function NewCourse() {
             />
           </div>
           <div className="flex flex-col space-y-2">
-            <label htmlFor="instructor_id" className="text-sm font-medium">
-              Instructor ID
-            </label>
-            <input
-              id="instructor_id"
-              name="instructor_id"
-              type="text"
-              placeholder="Enter Instructor ID"
-              className="py-2 px-4 border border-gray-300 rounded-md"
-              onChange={handleChange}
-            />
-          </div>
-          <div className="flex flex-col space-y-2">
             <label htmlFor="course_for" className="text-sm font-medium">
               Course For
             </label>
@@ -103,13 +149,14 @@ export default function NewCourse() {
           </div>
           <button
             type="button"
-            onClick={handleCreateCourse}
-            className="bg-green-500 text-white py-2 px-4 rounded-md hover:bg-green-600 transition duration-300 w-full"
+            onClick={addCourse}
+            className="bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue  -600 transition duration-300 w-full"
           >
             Create Course
           </button>
         </form>
       </div>
+      <ToastContainer />
     </div>
   );
 }
