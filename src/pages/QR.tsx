@@ -12,7 +12,7 @@ const QR = () => {
   ]);
 
   const handleBack = () => {
-    navigate("/");
+    navigate(-1);
   };
 
   const fetchNewAttendance = () => {
