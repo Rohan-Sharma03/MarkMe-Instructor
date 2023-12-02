@@ -1,9 +1,13 @@
 import React from "react";
 import CourseBox from "../Components/CourseBox";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 
 const Home = () => {
   const navigate = useNavigate();
+  // const [params] = useSearchParams();
+  // const email = params.get("email");
+  // console.log("this is emial in home", email);
+
   function handleClickCourse() {
     navigate("/addCourse");
   }
