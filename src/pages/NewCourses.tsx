@@ -83,9 +83,27 @@ export default function NewCourse() {
 
   const handleCreateCourse = () => {
     // Implement logic to create a new course, e.g., send data to the server
+    notifyStudents();
     console.log("Course Details:", courseDetails);
     // Redirect to the appropriate page after course creation
     navigate("/", { replace: true });
+  };
+
+  const notifyStudents = async () => {
+    try {
+      const response = await axios.post(
+        `${process.env.REACT_APP_API_URL}/api/ciAddCourseRequest`,
+        {
+          course_id: courseDetails.course_id,
+          instructor_id: courseDetails.instructor_id,
+          course_for: courseDetails.course_for,
+        }
+      );
+      console.log(response.data); // Log the response data if needed
+    } catch (error) {
+      console.error("Error creating account:", error);
+      // Handle error, show error message to the user, etc.
+    }
   };
 
   return (

@@ -42,13 +42,15 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
   const login = (userData: User) => {
     setIsLoggedIn(true);
     setUserData(userData);
-    console.log("Form use auth : ", userData);
+    localStorage.setItem("isLoggedIn", "true");
     localStorage.setItem("userData", JSON.stringify(userData));
   };
 
   const logout = () => {
     setIsLoggedIn(false);
     setUserData(null);
+    localStorage.removeItem("isLoggedIn");
+    localStorage.removeItem("userData");
     localStorage.clear();
   };
 

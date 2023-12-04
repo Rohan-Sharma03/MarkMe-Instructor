@@ -1,10 +1,13 @@
 import React, { useState, useEffect, useRef } from "react";
 import QRCode from "react-qr-code";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { AiOutlineInfoCircle } from "react-icons/ai";
 
 const QR = () => {
   const navigate = useNavigate();
+  const [params] = useSearchParams();
+  const course_id = params.get("course_id");
+
   const [liveAttendance, setLiveAttendance] = useState([
     { name: "Student 1", rollNumber: "A101" },
     { name: "Student 2", rollNumber: "A102" },
@@ -26,13 +29,13 @@ const QR = () => {
     ]);
   };
 
-  useEffect(() => {
-    const interval = setInterval(() => {
-      fetchNewAttendance();
-    }, 3000);
+  // useEffect(() => {
+  //   const interval = setInterval(() => {
+  //     fetchNewAttendance();
+  //   }, 3000);
 
-    return () => clearInterval(interval);
-  }, [liveAttendance]);
+  //   return () => clearInterval(interval);
+  // }, [liveAttendance]);
 
   return (
     <section className="flex items-center justify-center h-screen bg-gray-100">
@@ -42,12 +45,14 @@ const QR = () => {
             Total Strength: {liveAttendance.length}
           </h1>
           <div className="mb-4">
-            <h2 className="text-xl font-bold mb-2">QR Code</h2>
-            <QRCode
-              size={400}
-              value={"Rohan"}
-              className="w-full h-auto border"
-            />
+            <h2 className="text-xl font-bold mb-2">QR Code for {course_id}</h2>
+            {course_id && ( // Check if course_id is not null before rendering QRCode
+              <QRCode
+                size={400}
+                value={course_id}
+                className="w-full h-auto border"
+              />
+            )}
           </div>
         </div>
         <div className="w-px bg-gray-300"></div>
