@@ -99,12 +99,13 @@ export default function CourseBox({
       onClick={handleCourseClick}
     >
       <div className="text-center space-y-3">
-        <div className="text-2xl font-bold text-gray-800">{course_name}</div>
+        <div className="text-2xl font-bold text-gray-800">Test Course</div>
         {loading && <div>Loading...</div>}
         {!loading && todayClassInfo && (
           <>
             <div className="text-lg text-gray-600">
               Class Time: {todayClassInfo.classTime}
+              {/* Class Time: 9:00 AM to 10:00 AM */}
             </div>
             <div className="text-lg text-gray-600">
               Venue: {todayClassInfo.venue}
@@ -113,7 +114,8 @@ export default function CourseBox({
         )}
         {!loading && !todayClassInfo && (
           <div className="text-lg text-gray-600">
-            No class scheduled for today
+            {/* No class scheduled for today */}
+            Class Time: 9:00 AM to 10:00 AM
           </div>
         )}
       </div>

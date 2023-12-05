@@ -9,9 +9,7 @@ const QR = () => {
   const course_id = params.get("course_id");
 
   const [liveAttendance, setLiveAttendance] = useState([
-    { name: "Student 1", rollNumber: "A101" },
-    { name: "Student 2", rollNumber: "A102" },
-    { name: "Student 3", rollNumber: "A103" },
+    { name: "Rohan", rollNumber: "2020BtechCSE066" },
   ]);
 
   const handleBack = () => {

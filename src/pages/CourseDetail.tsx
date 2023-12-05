@@ -181,7 +181,7 @@ export default function CourseDetail(): JSX.Element {
           <h2 className="text-lg font-semibold mb-4 text-gray-800">
             Enrolled Students
           </h2>
-          <div className="overflow-auto max-h-64">
+          <div className="overflow-auto max-h-36">
             <ul className="divide-y divide-gray-300">
               {enrolledStudents.map((student, index) => (
                 <li key={index} className="py-2 text-gray-700">
@@ -192,7 +192,7 @@ export default function CourseDetail(): JSX.Element {
           </div>
         </div>
         <div className="bg-white p-6 rounded-lg shadow-md border-2 border-gray-200">
-          <h2 className="text-lg font-semibold mb-4 text-gray-800">
+          <h2 className="text-lg font-semibold mb-2 text-gray-800">
             Agenda for Class
           </h2>
           <div>
@@ -202,7 +202,7 @@ export default function CourseDetail(): JSX.Element {
                 <textarea
                   className="w-full p-3 rounded-md border border-gray-300"
                   placeholder="Lecture Agenda"
-                  rows={2}
+                  rows={1}
                   value={lecture}
                   onChange={(e) => setLecture(e.target.value)}
                 ></textarea>
@@ -214,7 +214,7 @@ export default function CourseDetail(): JSX.Element {
                 <textarea
                   className="w-full p-3 rounded-md border border-gray-300"
                   placeholder="Lab Agenda"
-                  rows={2}
+                  rows={1}
                   value={lab}
                   onChange={(e) => setLab(e.target.value)}
                 ></textarea>
@@ -252,7 +252,7 @@ export default function CourseDetail(): JSX.Element {
             <textarea
               className="w-full p-3 rounded-md border border-gray-300"
               placeholder="Message"
-              rows={3}
+              rows={1}
               value={message}
               onChange={(e) => setMessage(e.target.value)}
             ></textarea>
